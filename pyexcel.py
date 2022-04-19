@@ -16,7 +16,6 @@ with open('table_name.txt', 'r') as f:
     a = []
     for l in f.readlines():
         l = l.strip()
-#        print(l)
         ts = calendar.timegm(time.gmtime())
         with open(l+'.sql','r') as f2:
             te = ''.join([str(i) for i in f2.read().splitlines()])    
@@ -40,6 +39,7 @@ with open('table_name.txt', 'r') as f:
             emp = pd.read_excel(tnf, sheet_name='应急漏洞', usecols=['主机IP','主机系统类型','风险等级','漏洞','影响软件','状态','处理方法'])
 #            emp = pd.read_excel(tnf, header=None, sheet_name=1, names=columns)
             df2 = emp['主机IP'].str.rsplit("（", expand=True)
+#            df3 = emp['漏洞'].str.rsplit("",expand=True)
             emp["主机IP"]= df2[0]
             
             emp.head()
