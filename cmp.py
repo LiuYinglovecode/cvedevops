@@ -34,6 +34,7 @@ with open('to_be_checked.txt', 'r') as f:
         values = ',%s'
         # 将第一行作为第一列输出了
         emp = pd.read_excel(tnf, sheet_name='应急漏洞',usecols='A:U')
+        fin = pd.read_excel(fn, sheet_name='应急漏洞',usecols='A:U')
 #        emp2 = pd.read_excel(tnf, sheet_name='应急漏洞',index_col=0)
 #        emp = emp2.insert(21,'处理方法','Null')
 #        emp = pd.read_excel(tnf, header=None, sheet_name=1, names=columns)
@@ -50,11 +51,12 @@ with open('to_be_checked.txt', 'r') as f:
                 record = cursor.fetchone()
 #                    cursor.execute(con, multi=True)
                 print("connect successful")
-                for i,row in emp.iterrows():
+                for i,row in fin.iterrows():
 #                    print(row)
+
                     sql = "SELECT status,method FROM march WHERE ip="+ "'"+ row[2] +"'"+ \
                     " AND os=" + "'" +row[5] + "'" +" AND vulneral="+ "'" +row[7] + "'" + " LIMIT 0, 1" +";"
-                    print(sql)
+#                    print(sql)
 #                    cursor.execute(sql, tuple(row))
                     cursor.execute(sql)
                     res = cursor.fetchall()
@@ -62,17 +64,18 @@ with open('to_be_checked.txt', 'r') as f:
                         print("list is empty, the ip is: ",row[2])
                     else:
                         if res[0][0]=='已处理':
-                            #writer = pd.ExcelWriter(tnf)
-                            #emp.to_excel(writer, index=False)
+#                            print(i,row)
                             #df2.to_excel(writer, startcol=7,startrow=6, header=None)
                             #writer.save()
 #                            emp["主机IP"] = np.where(df["主机IP"] == row[0], res[0][0], "待处理")
-#                            ip = row['主机IP'].str.rsplit("（", expand=True)
                             #print(type(row['主机IP']))
-#                            ip = row['主机IP'].rsplit("（")[0]
-                            emp.loc[(emp["主机IP"] == row[2]) & (emp["主机系统类型"]==row[5]) & (emp['漏洞']==row[7]),"状态"] = "已处理" 
+#                            emp.loc[(emp["主机IP"] == row[2]) & (emp['漏洞']==row[7]),"状态"] = "已处理" 
+                            #row[17] = res[0][0] 
+                            #row[20] = res[0][1]
+                            fin.loc[i,'状态'] = res[0][0]
+                            fin.loc[i,'处理方法'] = res[0][1]
                             writer = pd.ExcelWriter(fn)
-                            emp.to_excel(writer, sheet_name='应急漏洞' ,index=False)
+                            fin.to_excel(writer, sheet_name='应急漏洞' ,index=False)
                             writer.save()
                             #print(emp2)
                     conn.commit()
