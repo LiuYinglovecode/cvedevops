@@ -1,28 +1,15 @@
-#comparison_values = df1.values == df2.values
-
-#rows,cols=np.where(comparison_values==False)
-
-#for item in zip(rows,cols):
-#    df1.iloc[item[0], item[1]] = 
-#    '{} --> {}'.format(df1.iloc[item[0], item[1]],df2.iloc[item[0], item[1]])
-#df1.to_excel('./Excel_diff.xlsx',index=False,header=True)
-#print (comparison_values)
-
 import pandas as pd
 import mysql.connector as msql
 from mysql.connector import Error
 import time
 import calendar
 import os
-#from openpyxl import load_workbook
 import numpy as np
-#from pathlib import Path
 path = os.getcwd()
 # 默认csv文件在当前目录下，后续可根据实际情况修改
 #path = '\test\test\csvfiles'
 table_list = []
 new_table_list = []
-#def search(args):
 fn = 'tobefilled.xlsx'
 with open('to_be_checked.txt', 'r') as f:
     c=0
@@ -32,14 +19,8 @@ with open('to_be_checked.txt', 'r') as f:
         ts = calendar.timegm(time.gmtime())
         tnf = l + ".xlsx"
         values = ',%s'
-        # 将第一行作为第一列输出了
         emp = pd.read_excel(tnf, sheet_name='应急漏洞',usecols='A:U')
         fin = pd.read_excel(fn, sheet_name='应急漏洞',usecols='A:U')
-#        emp2 = pd.read_excel(tnf, sheet_name='应急漏洞',index_col=0)
-#        emp = emp2.insert(21,'处理方法','Null')
-#        emp = pd.read_excel(tnf, header=None, sheet_name=1, names=columns)
-#        df2 = emp['主机IP'].str.rsplit("（", expand=True)
-#        emp["主机IP"]= df2[0]
         emp.head()
         #print("this is emphead: ",emp3)
         try:
@@ -64,20 +45,11 @@ with open('to_be_checked.txt', 'r') as f:
                         print("list is empty, the ip is: ",row[2])
                     else:
                         if res[0][0]=='已处理':
-#                            print(i,row)
-                            #df2.to_excel(writer, startcol=7,startrow=6, header=None)
-                            #writer.save()
-#                            emp["主机IP"] = np.where(df["主机IP"] == row[0], res[0][0], "待处理")
-                            #print(type(row['主机IP']))
-#                            emp.loc[(emp["主机IP"] == row[2]) & (emp['漏洞']==row[7]),"状态"] = "已处理" 
-                            #row[17] = res[0][0] 
-                            #row[20] = res[0][1]
                             fin.loc[i,'状态'] = res[0][0]
                             fin.loc[i,'处理方法'] = res[0][1]
                             writer = pd.ExcelWriter(fn)
                             fin.to_excel(writer, sheet_name='应急漏洞' ,index=False)
                             writer.save()
-                            #print(emp2)
                     conn.commit()
         except Error as e:
             print("Error while connecting to MySQL",e)
