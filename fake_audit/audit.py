@@ -15,9 +15,9 @@ class Getoutofloop(Exception):
     pass
 
 regex = re.compile(r"audit\([\S]+:[\S]+\):", re.IGNORECASE)
-date_input = '11/4/22 11:17:02'
-aid = 3090824
-fext = 13
+date_input = '21/4/22 12:46:01'
+aid = 17214346
+fext = 1
 max_size = 8 *1024 * 1024
 aid_step = [1]+[0]*8
 given_time = datetime.strptime(date_input, '%d/%m/%y %H:%M:%S')

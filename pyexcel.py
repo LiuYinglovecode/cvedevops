@@ -10,7 +10,6 @@ path = os.getcwd()
 #path = '\test\test\csvfiles'
 table_list = []
 new_table_list = []
-#def search(args):
 with open('table_name.txt', 'r') as f:
     c=0
     a = []
@@ -19,7 +18,6 @@ with open('table_name.txt', 'r') as f:
         ts = calendar.timegm(time.gmtime())
         with open(l+'.sql','r') as f2:
             te = ''.join([str(i) for i in f2.read().splitlines()])    
-            print(te)
             lc = 0
             f2.seek(0)
             for le in f2:
