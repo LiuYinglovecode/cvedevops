@@ -47,4 +47,5 @@ python3 cmp.py
 #python3 sort.py
 #python3 systemvulwrite.py
 #python3 cmp2.py
+python3 may.py
 deactivate
